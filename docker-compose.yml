@@ -16,3 +16,19 @@ services:
     volumes:
       - "${HOMELAB_PATH}/nginx/data:/data"
       - "${HOMELAB_PATH}/nginx/letsencrypt:/etc/letsencrypt"
+      
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: Overseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Europe/London
+      - PORT=${OVERSEERR_PORT:-5055}
+    ports:
+      - "${OVERSEERR_PORT:-5055}:5055"
+    volumes:
+      - "${HOMELAB_PATH}/overseerr-data:/app/config"
+    restart: unless-stopped
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
