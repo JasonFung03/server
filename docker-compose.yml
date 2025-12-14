@@ -1,0 +1,18 @@
+networks:
+  default:
+    external: true
+    name: homelab
+
+services:
+  # Nginx Proxy Manager (Reverse Proxy)
+  nginx:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: NginxProxyManager
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PORT_80:-8341}:80"
+      - "${NGINX_PORT_81:-81}:81"
+      - "${NGINX_PORT_443:-8766}:443"
+    volumes:
+      - "${HOMELAB_PATH}/nginx/data:/data"
+      - "${HOMELAB_PATH}/nginx/letsencrypt:/etc/letsencrypt"
